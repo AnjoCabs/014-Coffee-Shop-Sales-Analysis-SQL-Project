@@ -20,16 +20,6 @@ CREATE TABLE coffeesalesdata
 	PRIMARY KEY(transaction_id)
 );
 
-
-SET GLOBAL local_infile = 1;
-
-
-LOAD DATA LOCAL INFILE 'C:/Users/billy/Desktop/DataSets/coffeesalesanalysis/Coffee Shop Sales.xlsx - Transactions.csv'
-INTO TABLE  coffeesalesdata	
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-IGNORE 1 LINES;
-
 -- 1. Show all sales transactions that happened on a specific date (e.g., 2025-01-01).
 -- 2. Find the total sales revenue (quantity × unit price) for each transaction.
 -- 3. Get the top 10 most expensive products sold (by unit_price).
@@ -54,16 +44,19 @@ IGNORE 1 LINES;
 
 
 -- 1. Show all sales transactions that happened on a specific year (e.g., 2025-01-01).
+
 SELECT *
 FROM coffeesalesdata
 WHERE YEAR(transaction_date) = 2023;
 
 -- 2. Find the total sales revenue (quantity × unit price) for each transaction.
+
 SELECT
 	SUM(transaction_qty * unit_price) AS total_revenue
 FROM coffeesalesdata;
 
 -- 3. Get the top 10 most expensive products sold (by unit_price).
+
 SELECT
 	product_id,
 	unit_price
@@ -75,11 +68,13 @@ ORDER BY unit_price DESC
 LIMIT 10;
 
 -- 4 List all transactions for a specific store (e.g., store_id = 3).
+
 SELECT *
 FROM coffeesalesdata
 WHERE store_id = 3;
 
 -- 5 Count how many transactions happened in each store_location.
+
 SELECT
 	store_id,
     COUNT(*) AS total_transactions
@@ -88,6 +83,7 @@ GROUP BY store_id
 ORDER BY store_id;
 
 -- 6 Find the total revenue per store.
+
 SELECT
 	store_id,
     SUM(transaction_qty * unit_price) AS total_revenue
@@ -96,6 +92,7 @@ GROUP BY store_id
 ORDER BY store_id;
 
 -- 7 Get the average quantity per transaction for each product category.
+
 SELECT
 	product_category,
 	ROUND(AVG(transaction_qty),2) AS avg_transactionQty
@@ -104,6 +101,7 @@ GROUP BY product_category
 ORDER BY avg_transactionQty DESC;
 
 -- 8 Show monthly sales trends (total revenue per month).
+
 SELECT
 	YEAR(transaction_date) AS year_,
 	MONTH(transaction_date) AS num_month,
@@ -117,6 +115,7 @@ GROUP BY
 ORDER BY num_month;
 
 -- 9 Which product category generated the most revenue overall?
+
 SELECT
 	product_category,
     SUM(transaction_qty * unit_price) AS total_sales
@@ -125,6 +124,7 @@ GROUP BY product_category
 ORDER BY total_sales DESC;
 
 -- 10 Find the top 5 products by sales volume (sum of transaction_qty).
+
 SELECT
 	product_category,
     SUM(transaction_qty) AS total_qty
@@ -134,6 +134,7 @@ ORDER BY total_qty DESC;
 
 
 -- 11 Identify the best-selling product type per store.
+
 SELECT
 	store_id,
     product_type,
@@ -147,6 +148,7 @@ ORDER BY
     total_qty DESC;
 
 -- 12 Compare weekend vs weekday sales to see when sales are higher.
+
 SELECT 
     CASE 
         WHEN DAYOFWEEK(transaction_date) IN (1,7) THEN 'Weekend' 
@@ -159,6 +161,7 @@ GROUP BY day_type
 ORDER BY total_sales DESC;
 
 -- 13 Find the peak sales hour of the day (using transaction_time).
+
 SELECT 
     HOUR(transaction_time) AS sales_hour,
     SUM(transaction_qty * unit_price) AS total_sales,
@@ -169,6 +172,7 @@ ORDER BY total_sales DESC
 LIMIT 1;
 
 -- 14 Calculate year-over-year growth in sales (if multiple years of data exist).
+
 WITH yearly_sales AS (
     SELECT 
         YEAR(transaction_date) AS sales_year,
@@ -188,6 +192,7 @@ SELECT
 FROM yearly_sales;
 
 -- 15 Show the product with the highest profit contribution (assuming unit_price ≈ sales price).
+
 SELECT 
     product_id,
     product_detail,
@@ -199,6 +204,7 @@ LIMIT 1;
 
 
 -- 16 Which store has the highest average transaction value?
+
 SELECT 
     store_id,
     store_location,
@@ -211,6 +217,7 @@ ORDER BY avg_transactionValue DESC
 LIMIT 1;
 
 -- 17 What percentage of revenue comes from each product_category?
+
 SELECT 
     product_category,
     ROUND((SUM(transaction_qty * unit_price) / 
@@ -222,6 +229,7 @@ ORDER BY revenue_percentage DESC;
 
 
 -- 18 Which products are low-performing (low quantity + low revenue)?
+
 WITH product_sales AS (
     SELECT 
         product_id,
@@ -251,6 +259,7 @@ ORDER BY ps.total_revenue ASC, ps.total_qty ASC;
 
 
 -- 19 How much revenue did each store generate during the holiday season (e.g., December)?
+
 SELECT 
     store_id,
     store_location,
@@ -263,6 +272,7 @@ GROUP BY
 ORDER BY december_revenue DESC;
 
 -- 20 Create a ranking of store locations by total revenue.
+
 SELECT 
     store_id,
     store_location,
