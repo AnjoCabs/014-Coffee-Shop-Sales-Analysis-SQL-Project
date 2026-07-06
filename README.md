@@ -82,6 +82,8 @@ Calculates the average value of customer transactions by store.
 17. Revenue contribution by product category
 Determines what percentage of total revenue each category contributes.
 
+20. Store revenue ranking
+
 💼 Business Value
 
 This project demonstrates how SQL can support:
@@ -97,6 +99,6 @@ Strategic Decision-Making
 ⭐ Key Takeaways
 
 This project demonstrates how SQL can transform raw transactional data into actionable business insights for the retail and food service industry. By applying advanced SQL concepts such as CTEs, window functions, date functions, and business KPI calculations, it showcases practical skills in sales analytics, revenue reporting, and performance evaluation. The project is ideal for demonstrating proficiency in SQL for Data Analyst, Business Intelligence Analyst, Retail Analyst, and SQL Developer roles.
-20. Store revenue ranking
+
 
 Ranks all store locations based on total revenue using SQL window functions.
